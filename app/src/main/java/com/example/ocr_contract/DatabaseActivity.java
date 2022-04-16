@@ -59,11 +59,18 @@ public class DatabaseActivity extends MainActivity {
                 //임시 테스트
                 //editTextSearch.setText(contractList.get(4).phoneNumber);
                 String phoneNumber = editTextSearch.getText().toString();
-                Contract searchedContract = contractDB.getInstance(context).contractDAO().findbyphoneNumber(phoneNumber);
-                Intent intent;
-                intent = new Intent(getApplicationContext(), DatabaseItemActivity.class);
-                intent.putExtra("item", searchedContract);
-                startActivity(intent);
+                Contract searchedContract = null;
+                searchedContract = contractDB.getInstance(context).contractDAO().findbyphoneNumber(phoneNumber);
+                if (searchedContract == null) {
+                    Toast toast = Toast.makeText(getApplicationContext(),"No result", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else {
+                    Intent intent;
+                    intent = new Intent(getApplicationContext(), DatabaseItemActivity.class);
+                    intent.putExtra("item", searchedContract);
+                    startActivity(intent);
+                }
             }
             catch (Exception e) {
 

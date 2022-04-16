@@ -53,7 +53,7 @@ public class contractAdapter extends RecyclerView.Adapter<contractAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView phoneNumber;
-        TextView address;
+        //TextView address;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -14,8 +15,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 
 import java.io.File;
 import java.io.IOException;
@@ -87,18 +100,6 @@ public class OcrResult extends AppCompatActivity {
         editTextMeasurementDate.setText(measurementDate);
         editTextWorkingDate.setText(workingDate);
 
-        Matrix matrix = new Matrix();
-        matrix.setScale(1.5f,1.5f);
-        File imgFile = new File(results[21]);
-        Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-        Bitmap nameImg = getTargetImage(bitmap, boundingPoly1, matrix);
-        Bitmap addressImg = getTargetImage(bitmap, boundingPoly2, matrix);
-        Bitmap sumImg = getTargetImage(bitmap, boundingPoly3, matrix);
-        Bitmap phoneNumberImg = getTargetImage(bitmap, boundingPoly4, matrix);
-        Bitmap contractDateImg = getTargetImage(bitmap, boundingPoly5, matrix);
-        Bitmap measurementDateImg = getTargetImage(bitmap, boundingPoly6, matrix);
-        Bitmap workingDateImg = getTargetImage(bitmap, boundingPoly7, matrix);
-
         imageViewName = (ImageView) findViewById(R.id.imageViewName);
         imageViewAddress = (ImageView) findViewById(R.id.imageViewAddress);
         imageViewSum = (ImageView) findViewById(R.id.imageViewSum);
@@ -107,6 +108,47 @@ public class OcrResult extends AppCompatActivity {
         imageViewMeasurementDate = (ImageView) findViewById(R.id.imageViewMeasurementDate);
         imageViewWorkingDate = (ImageView) findViewById(R.id.imageViewWorkingDate);
 
+        Matrix matrix = new Matrix();
+        matrix.setScale(1.5f,1.5f);
+        File imgFile = new File(results[21]);
+        //Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        final Bitmap[] bitmap = new Bitmap[1];
+        Glide.with(this)
+                .asBitmap().load(results[21])
+                .into(new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        Bitmap nameImg = getTargetImage(resource, boundingPoly1, matrix);
+                        Bitmap addressImg = getTargetImage(resource, boundingPoly2, matrix);
+                        Bitmap sumImg = getTargetImage(resource, boundingPoly3, matrix);
+                        Bitmap phoneNumberImg = getTargetImage(resource, boundingPoly4, matrix);
+                        Bitmap contractDateImg = getTargetImage(resource, boundingPoly5, matrix);
+                        Bitmap measurementDateImg = getTargetImage(resource, boundingPoly6, matrix);
+                        Bitmap workingDateImg = getTargetImage(resource, boundingPoly7, matrix);
+
+                        imageViewName.setImageBitmap(nameImg);
+                        imageViewAddress.setImageBitmap(addressImg);
+                        imageViewSum.setImageBitmap(sumImg);
+                        imageViewPhone.setImageBitmap(phoneNumberImg);
+                        imageViewContractDate.setImageBitmap(contractDateImg);
+                        imageViewMeasurementDate.setImageBitmap(measurementDateImg);
+                        imageViewWorkingDate.setImageBitmap(workingDateImg);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+                });
+    /*
+        Bitmap nameImg = getTargetImage(bitmap[0], boundingPoly1, matrix);
+        Bitmap addressImg = getTargetImage(bitmap[0], boundingPoly2, matrix);
+        Bitmap sumImg = getTargetImage(bitmap[0], boundingPoly3, matrix);
+        Bitmap phoneNumberImg = getTargetImage(bitmap[0], boundingPoly4, matrix);
+        Bitmap contractDateImg = getTargetImage(bitmap[0], boundingPoly5, matrix);
+        Bitmap measurementDateImg = getTargetImage(bitmap[0], boundingPoly6, matrix);
+        Bitmap workingDateImg = getTargetImage(bitmap[0], boundingPoly7, matrix);
+
         imageViewName.setImageBitmap(nameImg);
         imageViewAddress.setImageBitmap(addressImg);
         imageViewSum.setImageBitmap(sumImg);
@@ -114,7 +156,7 @@ public class OcrResult extends AppCompatActivity {
         imageViewContractDate.setImageBitmap(contractDateImg);
         imageViewMeasurementDate.setImageBitmap(measurementDateImg);
         imageViewWorkingDate.setImageBitmap(workingDateImg);
-
+    */
         class InsertRunnable implements Runnable {
             @Override
             public void run() {

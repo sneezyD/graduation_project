@@ -36,16 +36,15 @@
 
     <ImageButton
         android:id="@+id/imageButton"
-        android:layout_width="300dp"
-        android:layout_height="450dp"
+        android:layout_width="338dp"
+        android:layout_height="546dp"
         android:layout_marginStart="37dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="37dp"
-        android:scaleType="fitCenter"
-        android:contentDescription="이미지를 선택하세요"
         android:adjustViewBounds="true"
+        android:contentDescription="이미지를 선택하세요"
+        android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_gallery" />

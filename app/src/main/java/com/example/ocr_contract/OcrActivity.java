@@ -1,24 +1,26 @@
 package com.example.ocr_contract;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.net.Uri;
-import android.os.Environment;
+import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
+
+import com.bumptech.glide.Glide;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,14 +28,11 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 public class OcrActivity extends MainActivity{
 
     Intent intent;
     SimpleDateFormat imageDate = new SimpleDateFormat("yyyyMMdd_HHmmss");
-    String imagePath;
+    String imagePath = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +68,14 @@ public class OcrActivity extends MainActivity{
 
             @Override
             public void onClick(View v) {
-
-                OcrActivity.NaverOcrTask OcrTask = new OcrActivity.NaverOcrTask();
-                OcrTask.execute(ocrApiGwUrl, ocrSecretKey, imagePath);
+                if (imagePath == null){
+                    Toast toast = Toast.makeText(getApplicationContext(),"select image", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else {
+                    OcrActivity.NaverOcrTask OcrTask = new OcrActivity.NaverOcrTask();
+                    OcrTask.execute(ocrApiGwUrl, ocrSecretKey, imagePath);
+                }
             }
         });
 
@@ -130,7 +134,8 @@ public class OcrActivity extends MainActivity{
                     bitmap = BitmapFactory.decodeFile(imagePath, options);
                     break;
             }
-            select_Image.setImageBitmap(bitmap);
+            //select_Image.setImageBitmap(bitmap);
+            Glide.with(getApplicationContext()).asBitmap().load(imagePath).into(select_Image);
         }
     }
     
