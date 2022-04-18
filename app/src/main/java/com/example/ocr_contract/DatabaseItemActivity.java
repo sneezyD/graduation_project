@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+
 import java.io.File;
 import java.io.Serializable;
 
@@ -50,11 +52,15 @@ public class DatabaseItemActivity extends AppCompatActivity {
         TextViewMeasurementDate.setText("실측일: " + selectedContract.measurementDate);
         TextViewWorkingDate.setText("시공일: " + selectedContract.workingDate);
 
+        /*
         File imgFile = new  File(selectedContract.picturePath);
         if(imgFile.exists()){
             Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             imageView = (ImageView) findViewById(R.id.searchedImage);
             imageView.setImageBitmap(bitmap);
         }
+         */
+        imageView = (ImageView) findViewById(R.id.searchedImage);
+        Glide.with(this).asBitmap().load(selectedContract.picturePath).into(imageView);
     }
 }

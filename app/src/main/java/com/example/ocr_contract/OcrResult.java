@@ -3,13 +3,9 @@ package com.example.ocr_contract;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,20 +14,12 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.io.File;
-import java.io.IOException;
 
 public class OcrResult extends AppCompatActivity {
 
@@ -110,9 +98,6 @@ public class OcrResult extends AppCompatActivity {
 
         Matrix matrix = new Matrix();
         matrix.setScale(1.5f,1.5f);
-        File imgFile = new File(results[21]);
-        //Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-        final Bitmap[] bitmap = new Bitmap[1];
         Glide.with(this)
                 .asBitmap().load(results[21])
                 .into(new CustomTarget<Bitmap>() {
@@ -212,7 +197,7 @@ public class OcrResult extends AppCompatActivity {
         int x, y, width, height;
         x = Integer.parseInt(poly[0]);
         y = Integer.parseInt(poly[1]);
-        width = Integer.parseInt(poly[2]) - x;;
+        width = Integer.parseInt(poly[2]) - x;
         height = Integer.parseInt(poly[7]) - y;
         Bitmap target = Bitmap.createBitmap(source, x, y, width, height, matrix, true);
         return target;
