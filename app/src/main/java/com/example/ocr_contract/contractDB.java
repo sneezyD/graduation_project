@@ -16,7 +16,7 @@ public abstract class contractDB extends RoomDatabase {
     public static contractDB getInstance(Context context) {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                    contractDB.class, "contract1.db").build();
+                    contractDB.class, "contract2.db").build();
 
         }
         return INSTANCE;

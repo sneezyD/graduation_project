@@ -1,5 +1,6 @@
 package com.example.ocr_contract;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -25,8 +26,10 @@ public class Contract implements Serializable {
     @ColumnInfo(name="workingDate")
     public String workingDate;
 
+    /*
     @ColumnInfo(name="phoneNumber")
     public String phoneNumber;
+     */
 
     @ColumnInfo(name="sum")
     public String sum;
@@ -43,6 +46,7 @@ public class Contract implements Serializable {
     @ColumnInfo(name="changes")
     public String changes;
 
-    @PrimaryKey(autoGenerate = true)
-    public int id;
+    @PrimaryKey
+    @NonNull
+    public String phoneNumber;
 }

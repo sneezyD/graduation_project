@@ -21,6 +21,4 @@ public interface contractDAO    {
     @Delete
     void delete(Contract contract);
 
-    @Query("SELECT * FROM contract WHERE id IN (:Ids)")
-    List<Contract> loadAllByIds(int[] Ids);
 }
